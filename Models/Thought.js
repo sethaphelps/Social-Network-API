@@ -65,4 +65,4 @@ thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });
 
-module.exports = thoughtSchema;
+module.exports = Thought;
