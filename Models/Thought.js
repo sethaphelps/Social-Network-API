@@ -1,10 +1,10 @@
 const { Schema, Types } = require("mongoose");
 
-const formatDatePretty = (uglyDate) => {
-  return uglyDate.toDateString();
+const formatDate = (theDate) => {
+  return theDate.toDateString();
 };
 
-const reactionSchema = new Schema()
+
 const thoughtSchema = new Schema(
   {
     thoughtText: {
@@ -16,7 +16,7 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: (date) => formatDatePretty(date),
+      get: (date) => formatDate(date),
     },
     username: {
       type: String,
@@ -31,6 +31,34 @@ const thoughtSchema = new Schema(
     id: false,
   }
 );
+
+const reactionSchema = new Schema({
+    reactionID: {
+      type:Schema.Types.ObjectId,
+      default: () => new Types.ObjectId(),
+    },
+    reactionBody: {
+      type: String,
+      required: true,
+      minlength: 1,
+      maxlength: 280,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: (date) => formatDate(date),
+    },
+  },
+  {
+      toJSON: {
+      virtuals: true,
+    },
+    id: false,
+  })
 
 // Create a virtual property `commentCount` that gets the amount of comments per post
 thoughtSchema.virtual('reactionCount').get(function () {
