@@ -63,7 +63,7 @@ module.exports = {
         ? res
             .status(404)
             .json({ message: "No thought was found with that id." })
-        : res.json({ message: "Your thought was successfullu deleted." })
+        : res.json({ message: "Your thought was successfully deleted." })
     );
     User.findOneAndUpdate(
       { username: req.params.thoughtId.username },
