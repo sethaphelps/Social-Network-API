@@ -8,7 +8,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   // Grabs a singular thought
-  getOneThought(req, res) {
+  getSingleThoughtById(req, res) {
     Thought.findOne({ _id: req.params.thoughtId })
       .then((data) => res.json(data))
       .catch((err) => res.status(500).json(err));
