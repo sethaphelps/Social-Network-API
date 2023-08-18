@@ -3,6 +3,7 @@ const { Thought, User } = require("../Models");
 module.exports = {
   // This loads all the users
   getAllUsers(req, res) {
+    console.log("")
     User.find()
       .then((data) => res.json(data))
       .catch((err) => res.status(500).json(err));
@@ -57,5 +58,41 @@ module.exports = {
       console.log(err);
       res.status(500).json(err);
     });
+  },
+
+  // Add Friend
+
+  addFriend(req, res) {
+    User.findOneAndUpdate(
+      {_id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } },
+      { runValidators: true, new: true }
+    )
+    .then((user) => 
+      !user
+        ? res 
+          .status(404)
+          .json({ message: "No user was found with that id." })
+        : res.json(user)
+    )
+    .catch((err) => res.status(500).json(err));
+  },
+
+  // Delete Friend
+
+  deleteFriend(req, res) {
+    User.findOneAndUpdate(
+      {_id: req.params.userId },
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
+    )
+    .then((user) => 
+      !user
+        ? res 
+          .status(404)
+          .json({ message: "No user was found with that id." })
+        : res.json(user)
+    )
+    .catch((err) => res.status(500).json(err));
   },
 };
